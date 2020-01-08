@@ -2,8 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.slproject">
 
-
-    <uses-permission android:name = "android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -12,6 +14,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".SLActivity"></activity>
+        <activity android:name=".HelpActivity" />
+        <activity android:name=".VideoActivity" />
+        <activity android:name=".STTactivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,6 +26,9 @@
             </intent-filter>
         </activity>
 
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="dcd1f41aa6859b568b4455f09794758e" />
     </application>
 
 </manifest>
