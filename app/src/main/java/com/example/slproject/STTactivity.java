@@ -21,6 +21,8 @@ import kr.co.shineware.nlp.komoran.model.Token;
 public class STTactivity extends AppCompatActivity implements  View.OnClickListener, SpeechRecognizeListener {
     private SpeechRecognizerClient client;
     TextView textView;
+    List<Token> stemtext;
+    ArrayList textlist = new ArrayList();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +30,7 @@ public class STTactivity extends AppCompatActivity implements  View.OnClickListe
         SpeechRecognizerManager.getInstance().initializeLibrary(this);
         //findViewById(R.id.cancelbutton).setOnClickListener(this);
         findViewById(R.id.restartbutton).setOnClickListener(this);
+        findViewById(R.id.okbutton).setOnClickListener(this);
         //findViewById(R.id.stopbutton).setOnClickListener(this);
         textView = (TextView)findViewById(R.id.textView);
         if(PermissionUtils.checkAudioRecordPermission(this)) {
@@ -47,33 +50,29 @@ public class STTactivity extends AppCompatActivity implements  View.OnClickListe
     }
     private void setButtonsStatus(boolean enabled) {
         //findViewById(R.id.cancelbutton).setEnabled(!enabled);
-        findViewById(R.id.restartbutton).setEnabled(enabled);
-        findViewById(R.id.okbutton).setEnabled(enabled);
+        findViewById(R.id.restartbutton).setEnabled(!enabled);
+        findViewById(R.id.okbutton).setEnabled(!enabled);
         //findViewById(R.id.stopbutton).setEnabled(!enabled);
     }
     @Override
     public void onClick(View v) {
         int id = v.getId();
-
-         /*else if(id == R.id.cancelbutton){
-            if(client != null){
-                System.out.println("캔슬");
-                client.cancelRecording();
-            }
-            setButtonsStatus(true);
-        }*/
          if (id == R.id.restartbutton) {
-                SpeechRecognizerClient.Builder builder = new SpeechRecognizerClient.Builder().setServiceType(SpeechRecognizerClient.SERVICE_TYPE_DICTATION);
-                client = builder.build();
-                client.setSpeechRecognizeListener(this);
-                System.out.println("재시작");
-                client.cancelRecording();
-                client.startRecording(true);
-
+                 SpeechRecognizerClient.Builder builder = new SpeechRecognizerClient.Builder().setServiceType(SpeechRecognizerClient.SERVICE_TYPE_DICTATION);
+                 client = builder.build();
+                 client.setSpeechRecognizeListener(this);
+                 System.out.println("재시작");
+                 client.cancelRecording();
+                 client.startRecording(true);
         }
          else if(id == R.id.okbutton){
+
+
              Intent intent = new Intent(STTactivity.this, VideoActivity.class);
+             intent.putParcelableArrayListExtra("key",textlist);
              startActivity(intent);
+
+
          }
         /*else if (id == R.id.stopbutton) {
             if (client != null) {
@@ -115,15 +114,14 @@ public class STTactivity extends AppCompatActivity implements  View.OnClickListe
         final StringBuilder builder = new StringBuilder();
         Log.i("SpeechActivity", "onResults");
         ArrayList<String> texts = results.getStringArrayList(SpeechRecognizerClient.KEY_RECOGNITION_RESULTS);
-        List<Token> stemtext = stemmer.getStem(texts.get(0));
+        stemtext = stemmer.getStem(texts.get(0));
         for(Token token : stemtext){
-            builder.append(token.getMorph());
-            builder.append(token.getPos());
-            builder.append("\n");
+            textlist.add(token.getMorph());
         }
         System.out.print(texts.get(0));
         textView.setText(texts.get(0));
-        setButtonsStatus(true);
+        setButtonsStatus(false);
+
 
         client = null;
     }

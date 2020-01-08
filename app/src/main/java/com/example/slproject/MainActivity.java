@@ -24,6 +24,7 @@ import java.net.URL;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+
 public class MainActivity extends AppCompatActivity{
     Button speechbutton;
     Button slbutton;
@@ -32,8 +33,8 @@ public class MainActivity extends AppCompatActivity{
     Document doc[] = new Document[44];
     TextView textview;
 
-    SQLiteHelper sqLiteHelper;
-    SQLiteDatabase db;
+    static SQLiteHelper sqLiteHelper;
+    static SQLiteDatabase db;
     Cursor cursor;
 
     String titles[] = new String[12931];
@@ -55,14 +56,14 @@ public class MainActivity extends AppCompatActivity{
         sqLiteHelper = new SQLiteHelper(this);
         db = sqLiteHelper.getWritableDatabase();
 
-        System.out.println("111");
         GetXMLTask task = new GetXMLTask();
-
-        task.execute("http://175.125.91.94/oasis/service/rest/meta13/getCTE01701?numOfRows=300&pageNo=");
-
-        System.out.println("222");
-        System.out.println("333");
-
+        String sqlSelect = "SELECT * FROM Dictionary";
+        boolean checkDB = false;
+        Cursor checkresult = db.rawQuery(sqlSelect, null);
+        if(checkresult.moveToFirst())
+            checkDB = true;
+        if(checkDB==false)
+            task.execute("http://175.125.91.94/oasis/service/rest/meta13/getCTE01701?numOfRows=300&pageNo=");
 
         speechbutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,7 +76,7 @@ public class MainActivity extends AppCompatActivity{
         slbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, SLActivity.class);
+                Intent intent = new Intent(MainActivity.this, VideoActivity.class);
                 startActivity(intent);
             }
         });
@@ -92,7 +93,7 @@ public class MainActivity extends AppCompatActivity{
 
         @Override
         protected Document[] doInBackground(String... urls) {
-            System.out.println("444");
+
             URL url;
             try {
                 for(int i = 0; i<44; i++) {
@@ -111,7 +112,7 @@ public class MainActivity extends AppCompatActivity{
             return doc;
         } @Override
         protected void onPostExecute(Document doc[]) {
-            System.out.println("555");
+
             String path = "";
             String title = "";
             int idx = 0;
@@ -138,11 +139,12 @@ public class MainActivity extends AppCompatActivity{
 
                         result += title + " " + urlResult;
                         db.execSQL("INSERT INTO Dictionary VALUES('"+id+"', '" +title+"', '"+ urlResult +"');");
-                        String sqlSelect = "SELECT * FROM Dictionary";
+
                         id+=1;
                     }
 
                 /*select
+                String sqlSelect = "SELECT * FROM Dictionary";
                 cursor = db.rawQuery(sqlSelect, null);
                 startManagingCursor(cursor);
                 while(cursor.moveToNext()) {
@@ -150,7 +152,7 @@ public class MainActivity extends AppCompatActivity{
                     links[i] = cursor.getString(2);
                  }*/
             }
-            System.out.println("666");
+
 
             super.onPostExecute(doc);
         }
