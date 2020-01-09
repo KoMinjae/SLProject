@@ -40,7 +40,7 @@ public class STTactivity extends AppCompatActivity implements  View.OnClickListe
             client.startRecording(true);
             System.out.println("녹음중");
             setButtonsStatus(true);
-    }
+        }
     }
     @Override
     public void onDestroy() {
@@ -57,23 +57,23 @@ public class STTactivity extends AppCompatActivity implements  View.OnClickListe
     @Override
     public void onClick(View v) {
         int id = v.getId();
-         if (id == R.id.restartbutton) {
-                 SpeechRecognizerClient.Builder builder = new SpeechRecognizerClient.Builder().setServiceType(SpeechRecognizerClient.SERVICE_TYPE_DICTATION);
-                 client = builder.build();
-                 client.setSpeechRecognizeListener(this);
-                 System.out.println("재시작");
-                 client.cancelRecording();
-                 client.startRecording(true);
+        if (id == R.id.restartbutton) {
+            SpeechRecognizerClient.Builder builder = new SpeechRecognizerClient.Builder().setServiceType(SpeechRecognizerClient.SERVICE_TYPE_DICTATION);
+            client = builder.build();
+            client.setSpeechRecognizeListener(this);
+            System.out.println("재시작");
+            client.cancelRecording();
+            client.startRecording(true);
         }
-         else if(id == R.id.okbutton){
+        else if(id == R.id.okbutton){
 
 
-             Intent intent = new Intent(STTactivity.this, VideoActivity.class);
-             intent.putParcelableArrayListExtra("key",textlist);
-             startActivity(intent);
+            Intent intent = new Intent(STTactivity.this, VideoActivity.class);
+            intent.putParcelableArrayListExtra("key",textlist);
+            startActivity(intent);
 
 
-         }
+        }
         /*else if (id == R.id.stopbutton) {
             if (client != null) {
                 System.out.println("스탑");
@@ -113,15 +113,19 @@ public class STTactivity extends AppCompatActivity implements  View.OnClickListe
     public void onResults(Bundle results) {
         final StringBuilder builder = new StringBuilder();
         Log.i("SpeechActivity", "onResults");
-        ArrayList<String> texts = results.getStringArrayList(SpeechRecognizerClient.KEY_RECOGNITION_RESULTS);
+        ArrayList<String> texts = new ArrayList<String>();
+        texts = results.getStringArrayList(SpeechRecognizerClient.KEY_RECOGNITION_RESULTS);
+
         stemtext = stemmer.getStem(texts.get(0));
+
+        textlist.clear();
+
         for(Token token : stemtext){
             textlist.add(token.getMorph());
         }
-        System.out.print(texts.get(0));
+
         textView.setText(texts.get(0));
         setButtonsStatus(false);
-
 
         client = null;
     }
