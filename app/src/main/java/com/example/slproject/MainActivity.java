@@ -112,14 +112,17 @@ public class MainActivity extends AppCompatActivity{
             return doc;
         } @Override
         protected void onPostExecute(Document doc[]) {
-
+            String abs="";
+            String title="";
             String path = "";
-            String title = "";
+            int idxTemp =0;
+            String absResult="";
             int idx = 0;
             String urlResult = "";
             String result = "";
             int id = 1000;
             for(int j=0;j<44;j++){
+                idxTemp =0;
                 NodeList nodeList = doc[j].getElementsByTagName("item");
                     for(int i=0; i< nodeList.getLength(); i++){
 
@@ -136,9 +139,19 @@ public class MainActivity extends AppCompatActivity{
 
                         NodeList websiteList = fstElmnt.getElementsByTagName("title");
                         title = websiteList.item(0).getChildNodes().item(0).getNodeValue();
+                        NodeList absList = fstElmnt.getElementsByTagName("abstractDesc");
+                        abs = absList.item(0).getChildNodes().item(0).getNodeValue();
+
+                        idxTemp = abs.indexOf("]");
+                        System.out.println("111");
+                        if(idxTemp!=-1)
+                            absResult = abs.substring(1,idxTemp);
+                        else
+                            absResult = "";
+                        System.out.println("111");
 
                         result += title + " " + urlResult;
-                        db.execSQL("INSERT INTO Dictionary VALUES('"+id+"', '" +title+"', '"+ urlResult +"');");
+                        db.execSQL("INSERT INTO Dictionary VALUES('"+id+"', '" +title+"', '" +urlResult+"', '"+ absResult +"');");
 
                         id+=1;
                     }

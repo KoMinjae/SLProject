@@ -18,8 +18,11 @@ import java.util.ArrayList;
 
 import static com.example.slproject.MainActivity.db;
 
-public class VideoActivity extends AppCompatActivity {
 
+
+public class VideoActivity extends AppCompatActivity {
+    ArrayList textlist;
+    ArrayList poslist;
     RecyclerAdapter adapter;
 
     Cursor cursor;
@@ -36,24 +39,31 @@ public class VideoActivity extends AppCompatActivity {
 
         init();
 
-        ArrayList textlist = new ArrayList();
-        textlist = getIntent().getParcelableArrayListExtra("key");
+        textlist = new ArrayList();
+        poslist = new ArrayList();
+
+        textlist = getIntent().getExtras().getStringArrayList("text");
+        poslist = getIntent().getExtras().getStringArrayList("pos");
+
+        System.out.println("111");
 
         for (int i = 0; i < textlist.size(); i++) {
+            System.out.println(textlist.get(i));
+            System.out.println(poslist.get(i));
 
             String path = "";
             String title = "";
             String url = "";
-            String sqlSelect = "SELECT * FROM Dictionary WHERE title LIKE " + "\'%" + textlist.get(i) + "%\'";
+            String sqlSelectIN = "SELECT * FROM Dictionary WHERE title IN " + "\'(" + textlist.get(i) + ")\'";
+            String sqlSelectlike = "SELECT * FROM Dictionary WHERE title LIKE " + "\'" + textlist.get(i) + "%\'";
 
-            System.out.println(sqlSelect);
 
-            cursor = db.rawQuery(sqlSelect, null);
+            cursor = db.rawQuery(sqlSelectIN, null);
             startManagingCursor(cursor);
 
-            if (cursor.moveToFirst()) {
+            while(cursor.moveToNext()) {
 
-                title = cursor.getString(1);
+              title = cursor.getString(1);
                 url = cursor.getString(2);
                 data = new Data();
                 data.setTitle(title);
@@ -160,4 +170,5 @@ public class VideoActivity extends AppCompatActivity {
             this.url = url;
         }
     }
+
 }

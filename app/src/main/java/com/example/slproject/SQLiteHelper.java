@@ -13,11 +13,13 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_ID        = "id";
     public static final String COLUMN_TITLE      = "title";
     public static final String COLUMN_VIDEO      = "video";
+    public static final String COLUMN_ABS        = "pos";
 
     private static final String DATABASE_CREATE_TEAM = "create table "
             + TABLE_NAME + "(" + COLUMN_ID + " integer primary key,"
             + COLUMN_TITLE + " text, "
-            + COLUMN_VIDEO + " text);";
+            + COLUMN_VIDEO + " text, "
+            + COLUMN_ABS + " text);";
 
     public SQLiteHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

@@ -23,6 +23,9 @@ public class STTactivity extends AppCompatActivity implements  View.OnClickListe
     TextView textView;
     List<Token> stemtext;
     ArrayList textlist = new ArrayList();
+    ArrayList poslist = new ArrayList();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +61,7 @@ public class STTactivity extends AppCompatActivity implements  View.OnClickListe
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.restartbutton) {
+
             SpeechRecognizerClient.Builder builder = new SpeechRecognizerClient.Builder().setServiceType(SpeechRecognizerClient.SERVICE_TYPE_DICTATION);
             client = builder.build();
             client.setSpeechRecognizeListener(this);
@@ -67,9 +71,10 @@ public class STTactivity extends AppCompatActivity implements  View.OnClickListe
         }
         else if(id == R.id.okbutton){
 
-
             Intent intent = new Intent(STTactivity.this, VideoActivity.class);
-            intent.putParcelableArrayListExtra("key",textlist);
+            intent.putExtra("text",textlist);
+            intent.putExtra("pos",poslist);
+
             startActivity(intent);
 
 
@@ -119,11 +124,15 @@ public class STTactivity extends AppCompatActivity implements  View.OnClickListe
         stemtext = stemmer.getStem(texts.get(0));
 
         textlist.clear();
-
+        poslist.clear();
         for(Token token : stemtext){
-            textlist.add(token.getMorph());
+             textlist.add(token.getMorph());
+             poslist.add(token.getPos());
         }
-
+        System.out.println("111");
+        System.out.println(textlist.get(0));
+        System.out.println(poslist.get(0));
+        System.out.println("222");
         textView.setText(texts.get(0));
         setButtonsStatus(false);
 
