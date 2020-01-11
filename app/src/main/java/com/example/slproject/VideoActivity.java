@@ -36,6 +36,7 @@ public class VideoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
 
+
         init();
 
         textlist = new ArrayList();
@@ -88,6 +89,7 @@ public class VideoActivity extends AppCompatActivity {
 
                 System.out.println(exp + "설명입니다.");
                 System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@");
+
 
                 data = new Data();
                 data.setTitle(title);

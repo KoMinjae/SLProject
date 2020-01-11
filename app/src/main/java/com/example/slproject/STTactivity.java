@@ -130,9 +130,10 @@ public class STTactivity extends AppCompatActivity implements  View.OnClickListe
              poslist.add(token.getPos());
         }
 
+        System.out.println("111");
         System.out.println(textlist.get(0));
         System.out.println(poslist.get(0));
-
+        System.out.println("222");
 
         textView.setText(texts.get(0));
         setButtonsStatus(false);
