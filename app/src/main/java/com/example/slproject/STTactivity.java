@@ -23,6 +23,9 @@ public class STTactivity extends AppCompatActivity implements  View.OnClickListe
     TextView textView;
     List<Token> stemtext;
     ArrayList textlist = new ArrayList();
+    ArrayList poslist = new ArrayList();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +43,7 @@ public class STTactivity extends AppCompatActivity implements  View.OnClickListe
             client.startRecording(true);
             System.out.println("녹음중");
             setButtonsStatus(true);
-    }
+        }
     }
     @Override
     public void onDestroy() {
@@ -57,23 +60,25 @@ public class STTactivity extends AppCompatActivity implements  View.OnClickListe
     @Override
     public void onClick(View v) {
         int id = v.getId();
-         if (id == R.id.restartbutton) {
-                 SpeechRecognizerClient.Builder builder = new SpeechRecognizerClient.Builder().setServiceType(SpeechRecognizerClient.SERVICE_TYPE_DICTATION);
-                 client = builder.build();
-                 client.setSpeechRecognizeListener(this);
-                 System.out.println("재시작");
-                 client.cancelRecording();
-                 client.startRecording(true);
+        if (id == R.id.restartbutton) {
+
+            SpeechRecognizerClient.Builder builder = new SpeechRecognizerClient.Builder().setServiceType(SpeechRecognizerClient.SERVICE_TYPE_DICTATION);
+            client = builder.build();
+            client.setSpeechRecognizeListener(this);
+            System.out.println("재시작");
+            client.cancelRecording();
+            client.startRecording(true);
         }
-         else if(id == R.id.okbutton){
+        else if(id == R.id.okbutton){
+
+            Intent intent = new Intent(STTactivity.this, VideoActivity.class);
+            intent.putExtra("text",textlist);
+            intent.putExtra("pos",poslist);
+
+            startActivity(intent);
 
 
-             Intent intent = new Intent(STTactivity.this, VideoActivity.class);
-             intent.putParcelableArrayListExtra("key",textlist);
-             startActivity(intent);
-
-
-         }
+        }
         /*else if (id == R.id.stopbutton) {
             if (client != null) {
                 System.out.println("스탑");
@@ -119,14 +124,18 @@ public class STTactivity extends AppCompatActivity implements  View.OnClickListe
         stemtext = stemmer.getStem(texts.get(0));
 
         textlist.clear();
-
+        poslist.clear();
         for(Token token : stemtext){
-            textlist.add(token.getMorph());
+             textlist.add(token.getMorph());
+             poslist.add(token.getPos());
         }
+
+        System.out.println(textlist.get(0));
+        System.out.println(poslist.get(0));
+
 
         textView.setText(texts.get(0));
         setButtonsStatus(false);
-
 
         client = null;
     }

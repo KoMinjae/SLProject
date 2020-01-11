@@ -9,13 +9,19 @@ import kr.co.shineware.nlp.komoran.model.Token;
 
 public class stemmer {
     public static List getStem(String text){
-        Komoran komoran = new Komoran(DEFAULT_MODEL.FULL);
+        Komoran komoran = new Komoran(DEFAULT_MODEL.LIGHT);
         KomoranResult analyzeResultList = komoran.analyze(text);
 
         List<Token> tokenList = analyzeResultList.getTokenList();
+
         for(Token token : tokenList){
+
             System.out.format("%s %s\n", token.getMorph(), token.getPos());
+
         }
+
         return tokenList;
+
     }
+
 }

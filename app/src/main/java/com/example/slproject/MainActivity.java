@@ -1,16 +1,11 @@
 package com.example.slproject;
 
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Looper;
-import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -25,8 +20,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 import java.net.URL;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -55,7 +48,6 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         speechbutton = (Button)findViewById(R.id.speechbutton);
         slbutton = (Button)findViewById(R.id.slbutton);
         helpbutton = (Button)findViewById(R.id.helpbutton);
@@ -121,13 +113,21 @@ public class MainActivity extends AppCompatActivity{
         } @Override
         protected void onPostExecute(Document doc[]) {
 
+            String abs="";
+            String title="";
             String path = "";
-            String title = "";
+
+            int idxTemp =0;
+            String absResult="";
+            String exp = "";
+
             int idx = 0;
             String urlResult = "";
+
             String result = "";
             int id = 1000;
             for(int j=0;j<44;j++){
+                idxTemp =0;
                 NodeList nodeList = doc[j].getElementsByTagName("item");
                     for(int i=0; i< nodeList.getLength(); i++){
 
@@ -145,8 +145,28 @@ public class MainActivity extends AppCompatActivity{
                         NodeList websiteList = fstElmnt.getElementsByTagName("title");
                         title = websiteList.item(0).getChildNodes().item(0).getNodeValue();
 
+                        NodeList absList = fstElmnt.getElementsByTagName("abstractDesc");
+                        abs = absList.item(0).getChildNodes().item(0).getNodeValue();
+
+                        idxTemp = abs.indexOf("]");
+
+                        if(idxTemp!=-1)
+                            absResult = abs.substring(1,idxTemp);
+                        else
+                            absResult = "";
+
+                        if(idxTemp!=-1) {
+
+                            exp = abs.substring(idxTemp + 1);
+
+                            exp = exp.replace("\'", "\"");
+
+                        }
+                        else
+                            exp = "";
+
                         result += title + " " + urlResult;
-                        db.execSQL("INSERT INTO Dictionary VALUES('"+id+"', '" +title+"', '"+ urlResult +"');");
+                        db.execSQL("INSERT INTO Dictionary VALUES('" + id + "', '" + title + "', '" + urlResult + "', '" + absResult + "', '" + exp + "' );");
 
                         id+=1;
                     }
