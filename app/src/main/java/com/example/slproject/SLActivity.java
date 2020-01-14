@@ -1,18 +1,25 @@
 package com.example.slproject;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.view.Display;
+import android.view.MenuItem;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class SLActivity extends AppCompatActivity {
     TextView textView1;
     TextView textView3;
     TextView textView2;
     float density;
+    private BottomNavigationView bottomNavigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +36,34 @@ public class SLActivity extends AppCompatActivity {
         textView3.setTextSize((float) (getStandardSizeX()/30 ));
         textView1.setTextSize((float) (getStandardSizeY()/45));
         textView2.setTextSize((float) (getStandardSizeY()/45));
+
+        bottomNavigationView = findViewById(R.id.bottomNavi);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+                switch(menuItem.getItemId()){
+
+                    case R.id.action_mic:
+                        Intent intent = new Intent(SLActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        break;
+
+                    case R.id.action_qna:
+                        Intent intent1 = new Intent(SLActivity.this, HelpActivity.class);
+                        startActivity(intent1);
+                        break;
+
+                    case R.id.action_cloud:
+                        Intent intent2 = new Intent(SLActivity.this, SLActivity.class);
+                        startActivity(intent2);
+                        break;
+
+                }
+                return true;
+            }
+        });
 
     }
     public Point getScreenSize(Activity activity) {

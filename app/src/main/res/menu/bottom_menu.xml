@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_mic"
+        android:enabled="true"
+        android:icon="@drawable/img_mic"
+        android:title="음성"/>
+
+    <item
+        android:id="@+id/action_qna"
+        android:enabled="true"
+        android:icon="@drawable/img_qna"
+        android:title="QnA"/>
+
+    <item
+        android:id="@+id/action_cloud"
+        android:enabled="true"
+        android:icon="@drawable/img_cloud"
+        android:title="수어란?"/>
+</menu>

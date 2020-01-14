@@ -1,54 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".SLActivity">
-
-    <ScrollView
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".SLActivity">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:layout_height="0dp"
+            android:layout_weight="11">
 
-            <TextView
-                android:id="@+id/sltext1"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="50dp"
-                android:textColor="@android:color/holo_blue_dark"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.16" />
+                android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/sltext2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="50dp"
-                android:text=""
-                android:textColor="@android:color/holo_red_light"
-                android:textSize="18sp"
-                tools:layout_editor_absoluteX="173dp"
-                tools:layout_editor_absoluteY="261dp" />
+                <TextView
+                    android:id="@+id/sltext1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="50dp"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.16" />
 
-            <TextView
-                android:id="@+id/sltext3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="50dp"
-                android:text="Made by 고민재, 지민우"
-                tools:layout_editor_absoluteX="137dp"
-                tools:layout_editor_absoluteY="379dp" />
-        </LinearLayout>
-    </ScrollView>
+                <TextView
+                    android:id="@+id/sltext2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="50dp"
+                    android:text=""
+                    android:textColor="@android:color/holo_red_light"
+                    android:textSize="18sp"
+                    tools:layout_editor_absoluteX="173dp"
+                    tools:layout_editor_absoluteY="261dp" />
 
-</LinearLayout>
+                <TextView
+                    android:id="@+id/sltext3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="50dp"
+                    android:text="Made by 고민재, 지민우"
+                    tools:layout_editor_absoluteX="137dp"
+                    tools:layout_editor_absoluteY="379dp" />
+            </LinearLayout>
+        </ScrollView>
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavi"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:background="?android:attr/windowBackground"
+            app:itemIconTint="#000000"
+            app:itemTextColor="#000000"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:menu="@menu/bottom_menu" />
+
+    </LinearLayout>
