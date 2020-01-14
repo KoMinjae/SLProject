@@ -1,6 +1,8 @@
 package com.example.slproject;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
@@ -31,6 +33,10 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ArrayList textlist = new ArrayList();
     ArrayList poslist = new ArrayList();
     TextView textView;
-
+    ProgressDialog dialog;
     private BottomNavigationView bottomNavigationView;
     private SpeechRecognizerClient client;
 
@@ -65,6 +71,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        dialog = new ProgressDialog(this);
+
         SpeechRecognizerManager.getInstance().initializeLibrary(this);
 
         findViewById(R.id.restartbutton).setOnClickListener(this);
@@ -75,8 +83,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //findViewById(R.id.stopbutton).setOnClickListener(this);
         textView = (TextView) findViewById(R.id.textView);
         sqLiteHelper = new SQLiteHelper(this);
-        db = sqLiteHelper.getWritableDatabase();
 
+        db = sqLiteHelper.getWritableDatabase();
         GetXMLTask task = new GetXMLTask();
         String sqlSelect = "SELECT * FROM Dictionary";
         boolean checkDB = false;
@@ -116,6 +124,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private class GetXMLTask extends AsyncTask<String, Void, Document[]> {
+        @Override
+        protected void onPreExecute() {
+
+            dialog.setMessage("수어사전을 다운로드 중입니다");
+
+            dialog.show();
+        }
 
         @Override
         protected Document[] doInBackground(String... urls) {
@@ -202,6 +217,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
             super.onPostExecute(doc);
+            dialog.dismiss();
+
+
         }
     }
 

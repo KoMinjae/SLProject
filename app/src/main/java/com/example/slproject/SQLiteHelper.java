@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class SQLiteHelper extends SQLiteOpenHelper {
     // 데이터베이스
+    private static String DB_PATH = "";
     private static final String DATABASE_NAME      = "slp.db";
     private static final int DATABASE_VERSION      = 1;
     // 테이블
@@ -28,7 +29,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
 
     public SQLiteHelper(Context context){
+
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+
     }
     @Override
     public void onCreate(SQLiteDatabase db) {
