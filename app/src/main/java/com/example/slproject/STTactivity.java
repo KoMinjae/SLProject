@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,6 +24,8 @@ import kr.co.shineware.nlp.komoran.model.Token;
 public class STTactivity extends AppCompatActivity implements  View.OnClickListener, SpeechRecognizeListener {
     private SpeechRecognizerClient client;
     TextView textView;
+    EditText editText;
+    Button searchbutton;
     List<Token> stemtext;
     ArrayList textlist = new ArrayList();
     ArrayList poslist = new ArrayList();
@@ -34,16 +39,11 @@ public class STTactivity extends AppCompatActivity implements  View.OnClickListe
         //findViewById(R.id.cancelbutton).setOnClickListener(this);
         findViewById(R.id.restartbutton).setOnClickListener(this);
         findViewById(R.id.okbutton).setOnClickListener(this);
+        findViewById(R.id.searchbutton).setOnClickListener(this);
+        editText = (EditText)findViewById(R.id.editText);
+
         //findViewById(R.id.stopbutton).setOnClickListener(this);
         textView = (TextView)findViewById(R.id.textView);
-        if(PermissionUtils.checkAudioRecordPermission(this)) {
-            SpeechRecognizerClient.Builder builder = new SpeechRecognizerClient.Builder().setServiceType(SpeechRecognizerClient.SERVICE_TYPE_DICTATION);
-            client = builder.build();
-            client.setSpeechRecognizeListener(this);
-            client.startRecording(true);
-            System.out.println("녹음중");
-            setButtonsStatus(true);
-        }
     }
     @Override
     public void onDestroy() {
@@ -56,18 +56,19 @@ public class STTactivity extends AppCompatActivity implements  View.OnClickListe
         findViewById(R.id.restartbutton).setEnabled(!enabled);
         findViewById(R.id.okbutton).setEnabled(!enabled);
         //findViewById(R.id.stopbutton).setEnabled(!enabled);
+
     }
     @Override
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.restartbutton) {
-
-            SpeechRecognizerClient.Builder builder = new SpeechRecognizerClient.Builder().setServiceType(SpeechRecognizerClient.SERVICE_TYPE_DICTATION);
-            client = builder.build();
-            client.setSpeechRecognizeListener(this);
-            System.out.println("재시작");
-            client.cancelRecording();
-            client.startRecording(true);
+            if(PermissionUtils.checkAudioRecordPermission(this)) {
+                SpeechRecognizerClient.Builder builder = new SpeechRecognizerClient.Builder().setServiceType(SpeechRecognizerClient.SERVICE_TYPE_DICTATION);
+                client = builder.build();
+                client.setSpeechRecognizeListener(this);
+                client.cancelRecording();
+                client.startRecording(true);
+            }
         }
         else if(id == R.id.okbutton){
 
@@ -79,6 +80,25 @@ public class STTactivity extends AppCompatActivity implements  View.OnClickListe
 
 
         }
+        else if(id == R.id.searchbutton){
+
+            String texts = editText.getText().toString();
+
+            textlist.clear();
+            poslist.clear();
+
+            textlist.add(texts);
+            poslist.add("단어검색");
+            System.out.println("111");
+            System.out.println(textlist.get(0));
+            System.out.println(poslist.get(0));
+            System.out.println("222");
+
+            textView.setText(texts);
+            setButtonsStatus(false);
+
+        }
+
         /*else if (id == R.id.stopbutton) {
             if (client != null) {
                 System.out.println("스탑");

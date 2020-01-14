@@ -59,7 +59,7 @@ public class VideoActivity extends AppCompatActivity {
             String sqlSelectVV = "SELECT * FROM Dictionary WHERE title IN " + "(\'" + textlist.get(i) + "다" + "\')";
             String sqlSelectVA = "SELECT * FROM Dictionary WHERE TITLE LIKE \'" + textlist.get(i) + "%다" + "\'" + "AND POS=\'형용사\'";
             String sqlSelect = "SELECT * FROM (SELECT * FROM Dictionary WHERE pos != '동사' OR pos != '형용사') WHERE title IN " + "(\'" + textlist.get(i) + "\')";
-
+            String sqlSearch = "SELECT * FROM Dictionary WHERE title LIKE \'%" + textlist.get(i) + "%\'";
             if(poslist.get(i).equals("NNG")||poslist.get(i).equals("NNP")||poslist.get(i).equals("NNB")||poslist.get(i).equals("NP")||poslist.get(i).equals("NR")||poslist.get(i).equals("VV")||poslist.get(i).equals("VA")||poslist.get(i).equals("MAG")||poslist.get(i).equals("IC")||poslist.get(i).equals("JX")||poslist.get(i).equals("JC")) {
                 if (poslist.get(i).equals("VV")) {
 
@@ -77,6 +77,9 @@ public class VideoActivity extends AppCompatActivity {
                     startManagingCursor(cursor);
 
                 }
+            }else if(poslist.get(i).equals("단어검색")){
+                cursor = db.rawQuery(sqlSearch,null);
+                startManagingCursor(cursor);
             }
             while(cursor.moveToNext()) {
 
@@ -137,7 +140,6 @@ public class VideoActivity extends AppCompatActivity {
 
             private TextView textView;
             private TextView textView2;
-
             private VideoView videoView;
 
             ItemViewHolder(View itemView) {
@@ -148,8 +150,6 @@ public class VideoActivity extends AppCompatActivity {
                 videoView = itemView.findViewById(R.id.videoView);
                 MediaController controller = new MediaController(VideoActivity.this);
                 videoView.setMediaController(controller);
-
-
 
             }
 
