@@ -124,11 +124,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private class GetXMLTask extends AsyncTask<String, Void, Document[]> {
+
         @Override
         protected void onPreExecute() {
 
             dialog.setMessage("수어사전을 다운로드 중입니다");
-
+            dialog.setCanceledOnTouchOutside(false);
             dialog.show();
         }
 
