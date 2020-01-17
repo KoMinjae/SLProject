@@ -1,6 +1,8 @@
 package com.example.slproject;
 
 import android.database.Cursor;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -148,16 +150,15 @@ public class VideoActivity extends AppCompatActivity {
                 textView = itemView.findViewById(R.id.textView1);
                 textView2 = itemView.findViewById(R.id.sltext1);
                 videoView = itemView.findViewById(R.id.videoView);
-                MediaController controller = new MediaController(VideoActivity.this);
+                final MediaController controller = new MediaController(VideoActivity.this);
                 videoView.setMediaController(controller);
-
             }
 
             void onBind(Data data) {
                 textView.setText(data.getTitle());
                 textView2.setText(data.getExp());
-
-                videoView.setVideoPath(data.getUrl());
+                videoView.setVideoURI(Uri.parse(data.getUrl()));
+                videoView.start();
             }
         }
     }
