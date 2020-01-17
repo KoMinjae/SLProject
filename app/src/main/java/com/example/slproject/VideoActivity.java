@@ -1,14 +1,20 @@
 package com.example.slproject;
 
+import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.MediaController;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
@@ -120,9 +126,10 @@ public class VideoActivity extends AppCompatActivity {
 
 
         @Override
-        public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull ItemViewHolder holder, final int position) {
             // Item을 하나, 하나 보여주는(bind 되는) 함수입니다.
             holder.onBind(listData.get(position));
+
         }
 
         @Override
@@ -136,17 +143,18 @@ public class VideoActivity extends AppCompatActivity {
             listData.add(data);
         }
 
+
         // RecyclerView의 핵심인 ViewHolder 입니다.
         // 여기서 subView를 setting 해줍니다.
         class ItemViewHolder extends RecyclerView.ViewHolder {
 
             private TextView textView;
             private TextView textView2;
+
             private VideoView videoView;
 
             ItemViewHolder(View itemView) {
                 super(itemView);
-
                 textView = itemView.findViewById(R.id.textView1);
                 textView2 = itemView.findViewById(R.id.sltext1);
                 videoView = itemView.findViewById(R.id.videoView);
@@ -157,9 +165,12 @@ public class VideoActivity extends AppCompatActivity {
             void onBind(Data data) {
                 textView.setText(data.getTitle());
                 textView2.setText(data.getExp());
-                videoView.setVideoURI(Uri.parse(data.getUrl()));
-                videoView.start();
+                String url = data.getUrl();
+                String urls = url.replace("http","https");
+                videoView.setVideoURI(Uri.parse(urls));
+
             }
+
         }
     }
 
