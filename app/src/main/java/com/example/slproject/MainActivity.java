@@ -80,9 +80,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (checkresult.moveToFirst())
             checkDB = true;
         if (checkDB == false) {
-
+            dialog.setMessage("수어사전을 다운로드 중입니다");
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.show();
+            getXmlData();
+            dialog.dismiss();
         }
-
         bottomNavigationView = findViewById(R.id.bottomNavi);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -230,13 +233,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         } else if (id == R.id.okbutton) {
 
-            //Intent intent = new Intent(MainActivity.this, VideoActivity.class);
-            //intent.putExtra("text", textlist);
-            //intent.putExtra("pos", poslist);
-            getXmlData();
-            System.out.println("1");
+            Intent intent = new Intent(MainActivity.this, VideoActivity.class);
+            intent.putExtra("text", textlist);
+            intent.putExtra("pos", poslist);
 
-            //startActivity(intent);
+            startActivity(intent);
 
 
         } else if (id == R.id.searchbutton) {
@@ -387,8 +388,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     id+=1;
                                     int idxTemp1 = pos1.indexOf("[");
                                     int idxTemp2 = pos1.indexOf("]");
+                                    idxTemp = pos1.indexOf("]");
                                     if (idxTemp2 != -1)
-                                        absResult = pos1.substring(idxTemp1, idxTemp2);
+                                        absResult = pos1.substring(idxTemp1+1, idxTemp2);
                                     else
                                         absResult = "";
                                     if (idxTemp != -1) {
