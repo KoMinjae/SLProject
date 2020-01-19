@@ -3,18 +3,19 @@
     <item
         android:id="@+id/action_mic"
         android:enabled="true"
-        android:icon="@drawable/img_mic"
-        android:title="음성"/>
+        android:icon="@drawable/sear"
+        android:title="검색"/>
 
     <item
         android:id="@+id/action_qna"
         android:enabled="true"
-        android:icon="@drawable/img_qna"
-        android:title="QnA"/>
+        android:icon="@drawable/que"
+        android:scaleType="fitCenter"
+        android:title="도움말"/>
 
     <item
         android:id="@+id/action_cloud"
         android:enabled="true"
-        android:icon="@drawable/img_cloud"
-        android:title="수어란?"/>
+        android:icon="@drawable/hand_2"
+        android:title="손으로말하다"/>
 </menu>
