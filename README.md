@@ -14,6 +14,7 @@ SLPROJECT.APK파일을 설치합니다.
 1. 마이크 버튼 클릭후 음성입력을 하여 결과창이 나오는걸 본 후 돋보기 버튼 클릭.
 2. 단어를 입력한후 연필 버튼을 클릭후 결과창이 나오는걸 확인한 후 돋보기 버튼 클릭.
 
+![image](https://user-images.githubusercontent.com/40710664/89848766-ee376400-dbc1-11ea-8f2a-f4f5493321c7.png)
 ![image](https://user-images.githubusercontent.com/40710664/89848686-be885c00-dbc1-11ea-8ab4-1dbf64fd4cec.png)
 ![image](https://user-images.githubusercontent.com/40710664/89848689-c0eab600-dbc1-11ea-9be1-9ed9c7f8be2c.png)
 ![image](https://user-images.githubusercontent.com/40710664/89848692-c21be300-dbc1-11ea-8aaa-d152928e61e9.png)
